@@ -1,0 +1,113 @@
+{
+  "version": "0.1.0",
+  "name": "solchat",
+  "instructions": [
+    {
+      "name": "createChannel",
+      "accounts": [
+        { "name": "channel", "isMut": true, "isSigner": false },
+        { "name": "creator", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "name", "type": "string" }
+      ]
+    },
+    {
+      "name": "subscribe",
+      "accounts": [
+        { "name": "channel", "isMut": true, "isSigner": false },
+        { "name": "subscription", "isMut": true, "isSigner": false },
+        { "name": "subscriber", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "unsubscribe",
+      "accounts": [
+        { "name": "channel", "isMut": true, "isSigner": false },
+        { "name": "subscription", "isMut": true, "isSigner": false },
+        { "name": "subscriber", "isMut": true, "isSigner": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "postMessage",
+      "accounts": [
+        { "name": "channel", "isMut": true, "isSigner": false },
+        { "name": "subscription", "isMut": false, "isSigner": false },
+        { "name": "message", "isMut": true, "isSigner": false },
+        { "name": "sender", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "content", "type": "string" }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Channel",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "name", "type": "string" },
+          { "name": "creator", "type": "publicKey" },
+          { "name": "subscriberCount", "type": "u64" },
+          { "name": "messageCount", "type": "u64" },
+          { "name": "createdAt", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Subscription",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "subscriber", "type": "publicKey" },
+          { "name": "channel", "type": "publicKey" },
+          { "name": "subscribedAt", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Message",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "channel", "type": "publicKey" },
+          { "name": "sender", "type": "publicKey" },
+          { "name": "content", "type": "string" },
+          { "name": "timestamp", "type": "i64" },
+          { "name": "index", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "MessagePosted",
+      "fields": [
+        { "name": "channel", "type": "publicKey", "index": false },
+        { "name": "channelName", "type": "string", "index": false },
+        { "name": "sender", "type": "publicKey", "index": false },
+        { "name": "content", "type": "string", "index": false },
+        { "name": "timestamp", "type": "i64", "index": false },
+        { "name": "index", "type": "u64", "index": false }
+      ]
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "ChannelNameTooLong", "msg": "Channel name too long (max 32 chars)" },
+    { "code": 6001, "name": "ChannelNameEmpty", "msg": "Channel name cannot be empty" },
+    { "code": 6002, "name": "MessageTooLong", "msg": "Message too long (max 280 chars)" },
+    { "code": 6003, "name": "MessageEmpty", "msg": "Message cannot be empty" }
+  ],
+  "metadata": {
+    "address": "GSxVeR5oPMviphJ2WufyXfev717yiZSLPphG6uDTfpKX"
+  }
+}
