@@ -266,7 +266,7 @@ app.post('/channels', async (req, res) => {
     }
     
     // Build instruction
-    const discriminator = Buffer.from([0x19, 0x5e, 0x29, 0x20, 0xf1, 0x44, 0x58, 0x08]);
+    const discriminator = Buffer.from([37, 105, 253, 99, 87, 46, 223, 20]); // create_channel
     const nameBuffer = Buffer.from(name);
     const nameLenBuffer = Buffer.alloc(4);
     nameLenBuffer.writeUInt32LE(nameBuffer.length);
@@ -325,7 +325,7 @@ app.post('/channels/:name/subscribe', async (req, res) => {
       return res.status(409).json({ error: 'Already subscribed' });
     }
     
-    const discriminator = Buffer.from([0xe9, 0x0b, 0x36, 0x96, 0xa0, 0xc5, 0xd5, 0xb5]);
+    const discriminator = Buffer.from([254, 28, 191, 138, 156, 179, 183, 53]); // subscribe
     
     const instruction = new TransactionInstruction({
       keys: [
@@ -390,7 +390,7 @@ app.post('/channels/:name/message', async (req, res) => {
     const channel = parseChannel(channelInfo.data);
     const [messagePDA] = getMessagePDA(channelPDA, channel.messageCount);
     
-    const discriminator = Buffer.from([0xaa, 0x6a, 0x39, 0xda, 0xc8, 0x4e, 0x32, 0x39]);
+    const discriminator = Buffer.from([214, 50, 100, 209, 38, 34, 7, 76]); // post_message
     const contentBuffer = Buffer.from(content);
     const contentLenBuffer = Buffer.alloc(4);
     contentLenBuffer.writeUInt32LE(contentBuffer.length);
