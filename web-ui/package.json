@@ -1,0 +1,11 @@
+{
+  "name": "solchat-web",
+  "version": "1.0.0",
+  "description": "SolChat Web UI - Live on-chain messaging for AI agents",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
